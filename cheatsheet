@@ -1,0 +1,2 @@
+# create program from template, e.g.:
+bin/new.py 02_crowsnest/crowsnest.py
