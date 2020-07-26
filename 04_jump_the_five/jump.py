@@ -29,16 +29,16 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    pos_arg = args.positional
+    text = args.positional
 
     jumper = { '1':'9','2':'8','3':'7','4':'6','5':'0','6':'4','7':'3','8':'2','9':'1','0':'5'}
 
     #print(f'positional = "{pos_arg}"')
 
-    for i in pos_arg:
+    for i in text:
         print(jumper.get(i, i),end='')
 
-    print('')
+    print()
 
 
 # --------------------------------------------------
