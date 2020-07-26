@@ -6,6 +6,7 @@ Purpose: Rock the Casbah
 """
 
 import argparse
+import os
 
 
 # --------------------------------------------------
@@ -21,11 +22,11 @@ def get_args():
                         help='Input string or file')
 
     parser.add_argument('-o',
-                        '--output',
-                        help='A writable file',
+                        '--outfile',
+                        help='A writable filename',
+                        type=str,
                         metavar='str',
-                        type=argparse.FileType('wt'),
-                        default=None)
+                        default='')
 
     return parser.parse_args()
 
@@ -35,12 +36,23 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    pos_arg = args.STR
-    file_arg = args.str
+    pos_arg = args.input
+    file_arg = args.outfile
 
-    print(f'positional = "{pos_arg}"')
+#    print(f'positional = "{pos_arg}"')
+#    print(f'outfile file = "{file_arg}"')
 
+    if os.path.isfile(pos_arg):
+        output_text = open(pos_arg).read().rstrip().upper()
+    else:
+        output_text= pos_arg.upper()
 
+    if len(file_arg) == 0:
+        print(f'{output_text}')
+    else:
+        fh = open(file_arg, "wt")
+        fh.write(output_text)
+        fh.close()
 # --------------------------------------------------
 if __name__ == '__main__':
     main()
