@@ -22,7 +22,7 @@ def random_string():
 def out_flag():
     """Either -o or --outfile"""
 
-    return '-o' if random.randint(0, 1) else '--outfile'
+    return '-o' if random.randint(0, 1) else '--outdir'
 
 
 # --------------------------------------------------
@@ -54,19 +54,17 @@ def test_text_stdout():
 def test_text_outfile():
     """Test STDIN/outfile"""
 
-    out_file = random_string()
-    if os.path.isfile(out_file):
-        os.remove(out_file)
+    out_dir = random_string()
+    if not os.path.isdir(out_dir):
+        os.mkdir(out_dir)
 
     try:
-        out = getoutput(f'{prg} {out_flag()} {out_file} "foo bar baz"')
-        assert out.strip() == ''
-        assert os.path.isfile(out_file)
-        text = open(out_file).read().rstrip()
-        assert text == 'FOO BAR BAZ'
+        out = getoutput(f'{prg} {out_flag()} {out_dir} "foo bar baz"')
+        out = getoutput(f'{prg} "foo bar baz"')
+        assert out.strip() == 'FOO BAR BAZ'
     finally:
-        if os.path.isfile(out_file):
-            os.remove(out_file)
+        if os.path.isdir(out_dir):
+            os.removedirs(out_dir)
 
 
 # --------------------------------------------------
@@ -75,18 +73,19 @@ def test_file():
 
     for expected_file in os.listdir('test-outs'):
         try:
-            out_file = random_string()
-            if os.path.isfile(out_file):
-                os.remove(out_file)
+            out_dir = random_string()
+            if not os.path.isdir(out_dir):
+                os.mkdir(out_dir)
 
             basename = os.path.basename(expected_file)
             in_file = os.path.join('../inputs', basename)
-            out = getoutput(f'{prg} {out_flag()} {out_file} {in_file}')
+            out = getoutput(f'{prg} {out_flag()} {out_dir} {in_file}')
             assert out.strip() == ''
-            produced = open(out_file).read().rstrip()
+            produced = open(out_dir+"/"+basename).read().rstrip()
             expected = open(os.path.join('test-outs',
                                          expected_file)).read().strip()
             assert expected == produced
         finally:
-            if os.path.isfile(out_file):
-                os.remove(out_file)
+            if os.path.isdir(out_dir):
+                 print('clean up??')
+#                os.removedirs(out_dir)

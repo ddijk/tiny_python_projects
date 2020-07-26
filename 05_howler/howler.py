@@ -22,7 +22,7 @@ def get_args():
                         help='Input string or file')
 
     parser.add_argument('-o',
-                        '--outfile',
+                        '--outdir',
                         help='A writable filename',
                         type=str,
                         metavar='str',
@@ -37,7 +37,7 @@ def main():
 
     args = get_args()
     pos_arg = args.input
-    file_arg = args.outfile
+    dir_arg = args.outdir
 
 #    print(f'positional = "{pos_arg}"')
 #    print(f'outfile file = "{file_arg}"')
@@ -47,10 +47,14 @@ def main():
     else:
         output_text= pos_arg.upper()
 
-    if len(file_arg) == 0:
+    if len(dir_arg) == 0 or not os.path.isfile(pos_arg):
         print(f'{output_text}')
     else:
-        fh = open(file_arg, "wt")
+        if not os.path.isdir(dir_arg):
+            os.mkdir(dir_arg)
+        
+        filename=pos_arg[pos_arg.rindex('/')+1:]
+        fh = open(dir_arg+"/"+filename, "wt")
         fh.write(output_text)
         fh.close()
 # --------------------------------------------------
