@@ -7,6 +7,7 @@ Purpose: Rock the Casbah
 
 import argparse
 import os
+import sys
 
 
 # --------------------------------------------------
@@ -22,7 +23,7 @@ def get_args():
                         metavar='FILE',
                         nargs="*",
                         type=argparse.FileType('r'),
-                        default='[sys.stdin]')
+                        default=[sys.stdin])
 
     return parser.parse_args()
 
@@ -34,24 +35,22 @@ def main():
     args = get_args()
     files = args.files
 
-    totalLines =0
-    totalWords =0
-    totalChars =0
+    totalLines = 0
+    totalWords = 0
+    totalChars = 0
     for fh in files:
         numOfLines = 0
         numOfWords = 0
         numOfChars = 0
         # naam ='<stdin>'
-        if os.path.isfile(fh):
-            naam = fh.name
-        else:
-            naam = 'bull'
+        naam = fh.name
         for line in fh:
             [numW, numCh] = processLine(line, numOfWords, numOfChars)
             numOfWords += numW
             numOfChars += numCh
             numOfLines += 1
-        print('{:8}{:8}{:8} {}'.format(numOfLines, numOfWords, numOfChars, naam))
+        print('{:8}{:8}{:8} {}'.format(numOfLines, numOfWords, numOfChars,
+                                       naam))
         totalLines += numOfLines
         totalWords += numOfWords
         totalChars += numOfChars
@@ -64,8 +63,8 @@ def processLine(line, wordsList, charsList):
     words = line.split()
     return [len(words), len(line)]
 
-#    print(f'Aantal woorden is {len(words)}')
 
+#    print(f'Aantal woorden is {len(words)}')
 
 # --------------------------------------------------
 if __name__ == '__main__':
