@@ -8,6 +8,8 @@ Purpose: Rock the Casbah
 import argparse
 import os
 
+from pprint import pprint as pp
+
 # --------------------------------------------------
 def get_args():
     """Get command-line arguments"""
@@ -32,6 +34,8 @@ def get_args():
 
     if os.path.isfile(args.text):
         args.text = open(args.text).read().rstrip()
+
+    # pp(args)
 
     return args
 
