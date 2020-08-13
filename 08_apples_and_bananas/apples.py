@@ -16,7 +16,7 @@ def get_args():
         description='Apples and bananas',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('positional',
+    parser.add_argument('text',
                         metavar='text',
                         help='Input text or file')
 
@@ -28,8 +28,12 @@ def get_args():
                         type=str,
                         default='a')
 
+    args = parser.parse_args()
 
-    return parser.parse_args()
+    if os.path.isfile(args.text):
+        args.text = open(args.text).read().rstrip()
+
+    return args
 
 
 # --------------------------------------------------
@@ -38,13 +42,7 @@ def main():
 
     args = get_args()
     vowel = args.vowel
-    textOrFile = args.positional
-
-
-    if os.path.isfile(textOrFile):
-        text = open(textOrFile).read().rstrip()
-    else:
-        text = textOrFile
+    text = args.text
 
     vowels ='aeiou'
 
