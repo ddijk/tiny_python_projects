@@ -105,3 +105,14 @@ def random_string():
 
     k = random.randint(5, 10)
     return ''.join(random.choices(string.ascii_letters + string.digits, k=k))
+
+
+# --------------------------------------------------
+def test_list_to_upper():
+    """Test map to upper""" 
+
+    mylist=['aap','noot', 'mies']
+
+    res = [x.upper() for x in mylist]
+
+    assert res == ['AAP','NOOT','MIES']
