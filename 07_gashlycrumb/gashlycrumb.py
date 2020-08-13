@@ -37,14 +37,14 @@ def main():
 
     args = get_args()
     file_arg = args.file
-    letter = args.letter
+    letter = [x.upper() for x in args.letter]
 
     dict ={}
     for line in file_arg:
         dict[line[0]] = line.rstrip()
 
     for c in letter:
-        print(f'{dict[c.upper()]}') if c.upper() in dict else print(f'I do not know "{c}".')
+        print(f'{dict[c]}') if c in dict else print(f'I do not know "{c}".')
 
 
 
