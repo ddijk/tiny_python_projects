@@ -6,7 +6,7 @@ Purpose: Rock the Casbah
 """
 
 import argparse
-
+import os
 
 # --------------------------------------------------
 def get_args():
@@ -38,16 +38,24 @@ def main():
 
     args = get_args()
     vowel = args.vowel
-    text = args.positional
+    textOrFile = args.positional
 
-    # print(f'str_arg = "{str_arg}"')
-    # print(f'positional = "{pos_arg}"')
+
+    if os.path.isfile(textOrFile):
+        text = open(textOrFile).read().rstrip()
+    else:
+        text = textOrFile
 
     vowels ='aeiou'
 
-    trTable= { 'a': vowel, 'e':vowel, 'i': vowel,'u': vowel, 'o': vowel}
-    trText= text.translate(str.maketrans(trTable))
-    print(trText)
+    result=''
+    for c in text:
+        if c.lower() in vowels:
+            result+= vowel if c.islower() else vowel.upper()
+        else:
+            result+=c
+
+    print(result)
 
 
 
