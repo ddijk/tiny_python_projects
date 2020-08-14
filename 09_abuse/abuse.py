@@ -57,13 +57,32 @@ def main():
 
     random.seed(seed)
 
-    numOfadjectives=['aap', 'noot','mies']
-    nouns = ['a','b','c']
+    theAdjectives="""
+    bankrupt base caterwauling corrupt cullionly detestable dishonest 
+    false filthsome filthy foolish foul gross heedless indistinguishable 
+    infected insatiate irksome lascivious lecherous loathsome lubbery old 
+    peevish rascaly rotten ruinous scurilous scurvy slanderous sodden-witted 
+    thin-faced toad-spotted unmannered vile wall-eyed
+    """
+
+    theNouns = '''
+    Judas Satan ape ass barbermonger beggar block boy braggart butt 
+    carbuncle coward coxcomb cur dandy degenerate fiend fishmonger 
+    fool gull harpy jack jolthead knave liar lunatic maw milksop minion 
+    ratcatcher recreant rogue scold slave swine traitor varlet villain worm
+    '''
+
+    adjectives = theAdjectives.strip().split()
+    assert len(adjectives) == 36
+
+    nouns = theNouns.strip().split()
+    assert len(nouns) == 39
+
     # print(f'number = "{number}"')
     # print(f'adjectives = "{adjectives}"')
     # print(f'seed = "{seed}"')
     for n in range(number):
-        adjectives = random.sample(numOfadjectives, number)
+        adjectives = random.sample(adjectives, k=numOfadjectives)
         noun = random.choice(nouns)
         print('You {} {}!'.format(', '.join(adjectives), noun))
 
