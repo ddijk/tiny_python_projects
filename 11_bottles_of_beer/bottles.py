@@ -70,7 +70,7 @@ def test_verse():
 
 def printVerse(num):
     print(verse(num))
-    if num > 1: print()
+
 # --------------------------------------------------
 def main():
     """Make a jazz noise here"""
@@ -78,8 +78,7 @@ def main():
     args = get_args()
     number = args.num
 
-    [printVerse(i) for i in range(number, 0, -1)]
-
+    print('\n\n'.join(map(verse, range(number, 0, -1))))
 # --------------------------------------------------
 if __name__ == '__main__':
     main()
