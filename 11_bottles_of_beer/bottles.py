@@ -68,6 +68,9 @@ def test_verse():
         'Take one down, pass it around,', '2 bottles of beer on the wall!'
     ])
 
+def printVerse(num):
+    print(verse(num))
+    if num > 1: print()
 # --------------------------------------------------
 def main():
     """Make a jazz noise here"""
@@ -75,9 +78,7 @@ def main():
     args = get_args()
     number = args.num
 
-    for i in range(number, 0, -1):
-        print(verse(i))
-        if i > 1: print()
+    [printVerse(i) for i in range(number, 0, -1)]
 
 # --------------------------------------------------
 if __name__ == '__main__':
