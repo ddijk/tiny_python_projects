@@ -57,34 +57,34 @@ def main():
 
     random.seed(seed)
 
-    theAdjectives="""
-    bankrupt base caterwauling corrupt cullionly detestable dishonest 
-    false filthsome filthy foolish foul gross heedless indistinguishable 
-    infected insatiate irksome lascivious lecherous loathsome lubbery old 
-    peevish rascaly rotten ruinous scurilous scurvy slanderous sodden-witted 
+    adjectives = """
+    bankrupt base caterwauling corrupt cullionly detestable dishonest false
+    filthsome filthy foolish foul gross heedless indistinguishable infected
+    insatiate irksome lascivious lecherous loathsome lubbery old peevish
+    rascaly rotten ruinous scurilous scurvy slanderous sodden-witted
     thin-faced toad-spotted unmannered vile wall-eyed
-    """
+    """.strip().split()
 
-    theNouns = '''
-    Judas Satan ape ass barbermonger beggar block boy braggart butt 
-    carbuncle coward coxcomb cur dandy degenerate fiend fishmonger 
-    fool gull harpy jack jolthead knave liar lunatic maw milksop minion 
+    nouns = """
+    Judas Satan ape ass barbermonger beggar block boy braggart butt
+    carbuncle coward coxcomb cur dandy degenerate fiend fishmonger fool
+    gull harpy jack jolthead knave liar lunatic maw milksop minion
     ratcatcher recreant rogue scold slave swine traitor varlet villain worm
-    '''
+    """.strip().split()
 
-    adjectives = theAdjectives.strip().split()
     assert len(adjectives) == 36
 
-    nouns = theNouns.strip().split()
     assert len(nouns) == 39
 
-    # print(f'number = "{number}"')
-    # print(f'adjectives = "{adjectives}"')
-    # print(f'seed = "{seed}"')
-    for n in range(number):
-        adjectives = random.sample(adjectives, k=numOfadjectives)
+    for _ in range(number):
+        adj= random.sample(adjectives, numOfadjectives)
         noun = random.choice(nouns)
-        print('You {} {}!'.format(', '.join(adjectives), noun))
+        a = ", ".join(adj)
+        print(f'You {a} {noun}!')
+
+    # for _ in range(args.number):
+        # adjs = ', '.join(random.sample(adjectives, k=args.adjectives))
+        # print(f'You {adjs} {random.choice(nouns)}!')
 
 
 # --------------------------------------------------
