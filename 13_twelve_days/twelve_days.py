@@ -9,6 +9,7 @@ import argparse
 import os
 import sys
 
+
 # --------------------------------------------------
 def get_args():
     """Get command-line arguments"""
@@ -37,10 +38,7 @@ def get_args():
     if (num < 1 or num > 12):
         parser.error(f'--num "{num}" must be between 1 and 12')
 
-    if len(args.outfile)>0:
-        args.outfile = open(args.outfile, "wt") 
-    else:
-        args.outfile = sys.stdout
+    args.outfile = open(args.outfile, "wt") if args.outfile else sys.stdout
 
     return args
 
@@ -74,19 +72,19 @@ Nine ladies dancing,
 Ten lords a leaping,
 Eleven pipers piping,
 Twelve drummers drumming,
-"""
-    presents_list = presents.strip().split("\n")
+""".strip().split("\n")
+
     result = f'On the {ordinal[number]} day of Christmas,\nMy true love gave to me,\n'
 
-    for i in reversed(range(1, number+1)):
+    for i in reversed(range(1, number + 1)):
         if number == 1:
-            result+='A '
+            result += 'A '
         elif i == 1:
-            result+='And a '
+            result += 'And a '
         else:
             pass
-        result+=presents_list[i-1]
-        result+='\n'
+        result += presents[i - 1]
+        result += '\n'
 
     return result
 
@@ -107,12 +105,13 @@ def main():
     num = args.num
     outfile = args.outfile
 
-    all =[]
-    for i in range(1, num + 1): 
+    all = []
+    for i in range(1, num + 1):
         all.append(verse(i))
 
     outfile.write('\n'.join(all))
     outfile.close()
+
 
 # --------------------------------------------------
 if __name__ == '__main__':
