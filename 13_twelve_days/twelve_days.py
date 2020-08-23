@@ -29,8 +29,8 @@ def get_args():
                         '--outfile',
                         help='Outfile (STDOUT)',
                         metavar='FILE',
-                        type=str,
-                        default='')
+                        type=argparse.FileType('wt'),
+                        default=sys.stdout)
 
     args = parser.parse_args()
 
@@ -38,7 +38,7 @@ def get_args():
     if (num < 1 or num > 12):
         parser.error(f'--num "{num}" must be between 1 and 12')
 
-    args.outfile = open(args.outfile, "wt") if args.outfile else sys.stdout
+    # args.outfile = open(args.outfile, "wt") if args.outfile else sys.stdout
 
     return args
 
@@ -74,28 +74,19 @@ Eleven pipers piping,
 Twelve drummers drumming,
 """.strip().split("\n")
 
-    result = f'On the {ordinal[number]} day of Christmas,\nMy true love gave to me,\n'
+    result = [f'On the {ordinal[number]} day of Christmas,','My true love gave to me,']
 
+    prefix=''
     for i in reversed(range(1, number + 1)):
         if number == 1:
-            result += 'A '
+            prefix = 'A '
         elif i == 1:
-            result += 'And a '
+            prefix = 'And a '
         else:
             pass
-        result += presents[i - 1]
-        result += '\n'
+        result.append(prefix+presents[i - 1])
 
-    return result
-
-
-def test_verse():
-    """ Test function 'verse'"""
-    assert verse(
-        1) == 'On the first day of Christmas,\nMy true love gave to me,'
-    assert verse(
-        2) == 'On the second day of Christmas,\nMy true love gave to me,'
-
+    return "\n".join(result)
 
 # --------------------------------------------------
 def main():
@@ -109,7 +100,8 @@ def main():
     for i in range(1, num + 1):
         all.append(verse(i))
 
-    outfile.write('\n'.join(all))
+    outfile.write('\n\n'.join(all))
+    outfile.write('\n')
     outfile.close()
 
 
