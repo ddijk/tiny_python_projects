@@ -45,15 +45,21 @@ def main():
 
     random.seed(args.seed)
 
-    result=''
-    for c in args.text:
-        result += choose(c)
+    result = ''.join(map(choose, list(text)))
 
     print(result)
 
 def choose(c):
     return c.lower() if random.choice([True, False]) else c.upper()
 
+
+def test_arr():
+
+    naam = 'dick'
+
+    expected = ['d','i','c','k']
+
+    assert list(naam) == expected
 
 
 # --------------------------------------------------
