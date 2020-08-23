@@ -45,7 +45,7 @@ def main():
 
     random.seed(args.seed)
 
-    result = ''.join(map(choose, list(text)))
+    result = ''.join([choose(c) for c in text])
 
     print(result)
 
