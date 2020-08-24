@@ -6,7 +6,6 @@ Purpose: Rock the Casbah
 """
 
 import argparse
-import os
 import sys
 
 
@@ -35,10 +34,8 @@ def get_args():
     args = parser.parse_args()
 
     num = args.num
-    if (num < 1 or num > 12):
+    if num not in range(1, 13):
         parser.error(f'--num "{num}" must be between 1 and 12')
-
-    # args.outfile = open(args.outfile, "wt") if args.outfile else sys.stdout
 
     return args
 
@@ -74,9 +71,12 @@ Eleven pipers piping,
 Twelve drummers drumming,
 """.strip().split("\n")
 
-    result = [f'On the {ordinal[number]} day of Christmas,','My true love gave to me,']
+    result = [
+        f'On the {ordinal[number]} day of Christmas,',
+        'My true love gave to me,'
+    ]
 
-    prefix=''
+    prefix = ''
     for i in reversed(range(1, number + 1)):
         if number == 1:
             prefix = 'A '
@@ -84,9 +84,10 @@ Twelve drummers drumming,
             prefix = 'And a '
         else:
             pass
-        result.append(prefix+presents[i - 1])
+        result.append(prefix + presents[i - 1])
 
     return "\n".join(result)
+
 
 # --------------------------------------------------
 def main():
@@ -94,15 +95,8 @@ def main():
 
     args = get_args()
     num = args.num
-    outfile = args.outfile
 
-    all = []
-    for i in range(1, num + 1):
-        all.append(verse(i))
-
-    outfile.write('\n\n'.join(all))
-    outfile.write('\n')
-    outfile.close()
+    print('\n\n'.join(map(verse, range(1, num + 1))), file=args.outfile)
 
 
 # --------------------------------------------------
