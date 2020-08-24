@@ -47,23 +47,21 @@ def main():
     args = get_args()
     text = args.word
 
-    pattern = '(['+consonants()+']+)(.*)'
+    pattern = '(['+consonants()+']+)?(.*)?'
 
     result = apply(pattern, text)
 
     print(''.join(result))
 
 def apply(pattern, text):
-    m = re.match(pattern, text)
-    if not m:
-        return ('', text)
+    groups =  re.match(pattern, text).groups()
 
-    groups = m.groups()
+    if groups[0] and groups[1]:
+        first = 'xx'
+    else: 
+        first=groups[0] or ''
 
-    if not len(groups[1]):
-        return groups
-    else:
-        return ('xx', groups[1])
+    return (first, groups[1] or '')
 
 # --------------------------------------------------
 if __name__ == '__main__':
