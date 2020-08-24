@@ -38,7 +38,7 @@ def stemmer(word):
 def consonants():
 
     # return ''.join([c in string.lower_ascii if c not in 'aeiou'])
-    return ''.join([drop_vowels(c) for c in string.ascii_lowercase])
+    return ''.join([c for c in string.ascii_lowercase if c not in 'aeoiu'])
 
 def drop_vowels(c):
     return c if c not in 'aeoiu' else ''
@@ -56,10 +56,28 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    pos_arg = args.word
+    text = args.word
 
-    print(f'positional = "{pos_arg}"')
+    pattern = '(['+filterVowels()+']+)(.*)'
 
+    result = doe(pattern, text)
+
+    print(''.join(result))
+
+def fun():
+    return 'x'
+
+def doe(pattern, text):
+    m = re.match(pattern, text)
+    if not m:
+        return ('', text)
+
+    groups = m.groups()
+
+    if not len(groups[1]):
+        return groups
+    else:
+        return ('xx', groups[1])
 
 # --------------------------------------------------
 if __name__ == '__main__':
