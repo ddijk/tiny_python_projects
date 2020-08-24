@@ -36,18 +36,7 @@ def stemmer(word):
     return ('', '')
 
 def consonants():
-
-    # return ''.join([c in string.lower_ascii if c not in 'aeiou'])
-    return ''.join([c for c in string.ascii_lowercase if c not in 'aeoiu'])
-
-def drop_vowels(c):
-    return c if c not in 'aeoiu' else ''
-
-def filterVowels():
     return ''.join(filter(lambda c: c not in 'aeoui', string.ascii_lowercase))
-
-def test_filter():
-    assert filterVowels() == 'bcdfghjklmnpqrstvwxyz'
 
 def test_consonants():
     assert consonants() == 'bcdfghjklmnpqrstvwxyz'
@@ -58,16 +47,13 @@ def main():
     args = get_args()
     text = args.word
 
-    pattern = '(['+filterVowels()+']+)(.*)'
+    pattern = '(['+consonants()+']+)(.*)'
 
-    result = doe(pattern, text)
+    result = apply(pattern, text)
 
     print(''.join(result))
 
-def fun():
-    return 'x'
-
-def doe(pattern, text):
+def apply(pattern, text):
     m = re.match(pattern, text)
     if not m:
         return ('', text)
