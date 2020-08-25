@@ -49,16 +49,16 @@ def main():
 
     pattern = '(['+consonants()+']+)?(.*)?'
 
-    groups =  re.match(pattern, text).groups()
+    groups =  re.match(pattern, text.lower()).groups()
 
-    if groups[0] and groups[1]:
-        printRhymeWords(groups[1])
+    if groups[1]:
+        printRhymeWords(groups[0], groups[1])
     else:
         first=groups[0] or ''
-        print(f'Cannot rhyme "{first}{groups[1]}"')
+        print(f'Cannot rhyme "{args.word}"')
 
 
-def printRhymeWords(rest):
+def printRhymeWords(leading_consonants, rest):
 
     replacements="""
     bl br ch cl cr dr fl fr gl gr pl pr sc sh sk sl sm sn sp st
@@ -67,7 +67,13 @@ sw th tr tw thw wh wr sch scr shr sph spl spr squ str thr
    
     replacements.extend(list(consonants()))
 
-    [print(c) for c in list(map(lambda w: print(w+rest), replacements)).sort()]
+    sorted_list = sorted(replacements)
+
+    r = [c for c in sorted_list if c != leading_consonants]
+    for x in r:
+        print(x+rest)
+    # sorted(map(print, replacements))
+    # [print(c) for c in list(map(lambda w: print(w+rest), replacements)).sort()]
     
 # --------------------------------------------------
 if __name__ == '__main__':
