@@ -74,9 +74,7 @@ sw th tr tw thw wh wr sch scr shr sph spl spr squ str thr
 
     replacements.extend(list(consonants()))
 
-    sorted_list = sorted(replacements)
-
-    [print(c + rest) for c in sorted_list if c != leading_consonants]
+    print("\n".join(sorted([c+rest for c in replacements if c != leading_consonants])))
 
 
 # --------------------------------------------------
