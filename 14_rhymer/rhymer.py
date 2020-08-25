@@ -34,9 +34,9 @@ def test_stemmer():
 
 def stemmer(word):
     pattern = '([' + consonants() + ']+)?(.*)?'
-    (res1, rest2) = map(lambda x: x or '', re.match(pattern, word.lower()).groups())
+    match = re.match(pattern, word.lower())
 
-    return (res1, rest2)
+    return (match.group(1) or '', match.group(2) or '') if match else ('','')
 
 
 def consonants():
