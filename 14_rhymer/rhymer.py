@@ -69,11 +69,7 @@ sw th tr tw thw wh wr sch scr shr sph spl spr squ str thr
 
     sorted_list = sorted(replacements)
 
-    r = [c for c in sorted_list if c != leading_consonants]
-    for x in r:
-        print(x+rest)
-    # sorted(map(print, replacements))
-    # [print(c) for c in list(map(lambda w: print(w+rest), replacements)).sort()]
+    [print(c+rest) for c in sorted_list if c != leading_consonants]
     
 # --------------------------------------------------
 if __name__ == '__main__':
