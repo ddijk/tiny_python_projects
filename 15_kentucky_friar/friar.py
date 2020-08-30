@@ -57,17 +57,13 @@ def fry(word):
         return f"{g[0]}'all"
 
     vowels = 'aeuoiAEUOI'
-    consonants = ''.join(filter(lambda e: e not in vowels, string.ascii_letters))
     pattern2 = "(["+string.ascii_letters+"]*)(ing)(\W)?"
 
     m = re.match(pattern2, word)
     if m:
         g = m.groups()
         # print(g)
-        if g[2]:
-            end = g[2]
-        else:
-            end =''
+        end = g[2] if g[2] else ''
         if len(list(filter(lambda e: e in vowels, g[0]))) > 0:
             return ''.join(g[0])+"in'" + end
 
