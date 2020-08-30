@@ -43,12 +43,9 @@ def fry(word):
     if m:
         g = m.groups()
         # print(g)
-        if g[2]:
-            end = g[2]
-        else: 
-            end=''
+       
         if g[0] and g[1]:
-            return f"{g[0]}'all"+end
+            return f"{g[0]}'all"+ (g[2] if g[2] else '')
 
     pattern3 = "([yY])(ou)$"
     m = re.match(pattern3, word)
@@ -56,16 +53,15 @@ def fry(word):
         g = m.groups()
         return f"{g[0]}'all"
 
-    vowels = 'aeuoiAEUOI'
     pattern2 = "(["+string.ascii_letters+"]*)(ing)(\W)?"
 
     m = re.match(pattern2, word)
     if m:
         g = m.groups()
         # print(g)
-        end = g[2] if g[2] else ''
+        vowels = 'aeuoiAEUOI'
         if len(list(filter(lambda e: e in vowels, g[0]))) > 0:
-            return ''.join(g[0])+"in'" + end
+            return ''.join(g[0])+"in'" + (g[2] if g[2] else '')
 
     return word
 
