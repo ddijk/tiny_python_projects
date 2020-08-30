@@ -30,36 +30,46 @@ def get_args():
     if os.path.isfile(args.text):
         lines = []
         for line in open(args.text):
-            lines.append(line.strip())
+            lines.append(line.rstrip())
 
         args.text = '\n'.join(lines)
     return args
 
 def fry(word):
-    pattern1 = '([yY])(ou)([\W]*$)'
+
+    pattern1 = "([yY])(ou)([\W]["+string.ascii_letters+"]*)"
     m = re.match(pattern1, word)
-
-
 
     if m:
         g = m.groups()
+        # print(g)
+        if g[2]:
+            end = g[2]
+        else: 
+            end=''
         if g[0] and g[1]:
-            return f"{g[0]}'all"
+            return f"{g[0]}'all"+end
+
+    pattern3 = "([yY])(ou)$"
+    m = re.match(pattern3, word)
+    if m:
+        g = m.groups()
+        return f"{g[0]}'all"
 
     vowels = 'aeuoiAEUOI'
     consonants = ''.join(filter(lambda e: e not in vowels, string.ascii_letters))
-    pattern2 = "(["+consonants+"]*)(["+vowels+"]+)[^'](["+consonants+"]*)(ing)(\W)?"
+    pattern2 = "(["+string.ascii_letters+"]*)(ing)(\W)?"
 
     m = re.match(pattern2, word)
     if m:
         g = m.groups()
-        print(g)
-        if g[4]:
-            end = g[4]
+        # print(g)
+        if g[2]:
+            end = g[2]
         else:
             end =''
-        if g[1]:
-           return ''.join(g[:3])+"in'" + end
+        if len(list(filter(lambda e: e in vowels, g[0]))) > 0:
+            return ''.join(g[0])+"in'" + end
 
     return word
 
@@ -77,7 +87,9 @@ def main():
     text = args.text
 
     for line in args.text.splitlines():
-        print(' '.join([fry(w) for w in line.split()]))
+        # print(line)
+        # print(re.split('\s', line))
+        print(' '.join([fry(w) for w in re.split('\s', line)]))
         
 
 
