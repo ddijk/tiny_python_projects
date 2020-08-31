@@ -35,29 +35,16 @@ def get_args():
 def fry(word):
     """ Convert some words to Kentucky slang"""
 
-    pattern1 = r"([yY])(ou)([\W][" + string.ascii_letters + "]*)"
-    match = re.match(pattern1, word)
+    ing = re.match('(.*)ing$', word)
 
-    if match:
-        groups = match.groups()
+    if ing:
+        if any(map(lambda e: e in 'aouei', ing.group(1))):
+            return ing.group(1)+"in'"
+    
+    you = re.match('([yY])ou$', word)
 
-        if groups[0] and groups[1]:
-            return f"{groups[0]}'all" + (groups[2] if groups[2] else '')
-
-    pattern3 = "([yY])(ou)$"
-    match = re.match(pattern3, word)
-    if match:
-        groups = match.groups()
-        return f"{groups[0]}'all"
-
-    pattern2 = "([" + string.ascii_letters + r"]*)(ing)(\W)?"
-
-    match = re.match(pattern2, word)
-    if match:
-        groups = match.groups()
-        vowels = 'aeuoiAEUOI'
-        if len(list(filter(lambda e: e in vowels, groups[0]))) > 0:
-            return ''.join(groups[0]) + "in'" + (groups[2] if groups[2] else '')
+    if you:
+        return you.group(1)+"'all"
 
     return word
 
@@ -79,7 +66,7 @@ def main():
     text = args.text
 
     for line in text.splitlines():
-        print(' '.join([fry(w) for w in re.split(r'\s', line)]))
+        print(''.join([fry(w) for w in re.split(r'(\W+)', line)]))
 
 
 # --------------------------------------------------
