@@ -38,7 +38,7 @@ def fry(word):
     ing = re.match('(.*)ing$', word)
 
     if ing:
-        if any(map(lambda e: e in 'aouei', ing.group(1))):
+        if re.search('[aouie]', ing.group(1), re.IGNORECASE):
             return ing.group(1)+"in'"
     
     you = re.match('([yY])ou$', word)
