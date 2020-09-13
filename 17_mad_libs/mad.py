@@ -11,6 +11,7 @@ import re
 from pprint import pprint
 import sys
 
+
 # --------------------------------------------------
 def get_args():
     """Get command-line arguments"""
@@ -32,7 +33,6 @@ def get_args():
                         type=str,
                         nargs="*",
                         default=None)
-
 
     return parser.parse_args()
 
@@ -57,23 +57,19 @@ def main():
 
     match = re.findall('(<([^<>]+)>)', text)
 
-    if len(match) == 0:
+    if not match:
         print(f'"{pos_arg.name}" has no placeholders.', file=sys.stderr)
         sys.exit(1)
-
-    
-    if not inputs:
-        inputs = [input(f"Geef waarde voor {b}:" ) for a,b in match]
 
     # print(inputs)
 
     # pprint(match)
 
     # print('text before:'+text)
-    inputs.reverse()
-    for a, name in match:
-        val = inputs.pop()
-        text = re.sub('<[^<>]+>', val, text, 1)
+    for placeholder, name in match:
+        article = "a" if name[0].lower() in 'aeoiu' else "an"
+        val = inputs.pop(0) if inputs else input("Give me {} {} ".format(article, name))
+        text = re.sub(placeholder, val, text, 1)
 
     print(text)
 
