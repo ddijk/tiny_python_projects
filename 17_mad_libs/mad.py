@@ -31,7 +31,7 @@ def get_args():
                         metavar='input',
                         type=str,
                         nargs="*",
-                        default=0)
+                        default=None)
 
 
     return parser.parse_args()
@@ -60,6 +60,12 @@ def main():
     if len(match) == 0:
         print(f'"{pos_arg.name}" has no placeholders.', file=sys.stderr)
         sys.exit(1)
+
+    
+    if not inputs:
+        inputs = [input(f"Geef waarde voor {b}:" ) for a,b in match]
+
+    # print(inputs)
 
     # pprint(match)
 
