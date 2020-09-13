@@ -63,9 +63,10 @@ def main():
 
     args = get_args()
     random.seed(args.seed)
+    splitter = re.compile("([a-zA-Z](?:[a-zA-Z']*[a-zA-Z])?)")
     for line in args.text.splitlines():
-        words = re.split("([a-zA-Z](?:[a-zA-Z']*[a-zA-Z])?)", line)
-        print(''.join(list(map(scramble, words))))
+        words =  splitter.split(line)
+        print(''.join(map(scramble, words)))
 
 
 # --------------------------------------------------
