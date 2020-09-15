@@ -33,12 +33,15 @@ def get_args():
 
 
 def calc(word):
-    return str(sum([ord(c) for c in word]))
+    return str(sum(map(ord, word)))
 
 def test_calc():
     assert calc("AA") == 130
     assert calc("ddd") == 300
 # --------------------------------------------------
+def convertWord(input): 
+    return calc(re.sub('[^A-Za-z0-9]', '', input))
+
 def main():
     """Make a jazz noise here"""
 
@@ -46,8 +49,7 @@ def main():
     text = args.text
 
     for line in args.text.splitlines():
-        # print(list(map(lambda x: calc(re.sub('[^A-Za-z0-9]', '', x)), line.split())))
-        print(' '.join(map(lambda x: calc(re.sub('[^A-Za-z0-9]', '', x)), line.split())))
+        print(' '.join(map(convertWord, line.split())))
 
 
 # --------------------------------------------------
