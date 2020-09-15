@@ -7,6 +7,9 @@ Purpose: Rock the Casbah
 
 import argparse
 
+import os
+import re
+
 
 # --------------------------------------------------
 def get_args():
@@ -21,9 +24,20 @@ def get_args():
                         help='Input text or file')
 
 
-    return parser.parse_args()
+    args = parser.parse_args()
+    
+    if os.path.isfile(args.text):
+        args.text = open(args.text).read().rstrip()
+
+    return args
 
 
+def calc(word):
+    return str(sum([ord(c) for c in word]))
+
+def test_calc():
+    assert calc("AA") == 130
+    assert calc("ddd") == 300
 # --------------------------------------------------
 def main():
     """Make a jazz noise here"""
@@ -31,7 +45,9 @@ def main():
     args = get_args()
     text = args.text
 
-    print(f'str_arg = "{text}"')
+    for line in args.text.splitlines():
+        # print(list(map(lambda x: calc(re.sub('[^A-Za-z0-9]', '', x)), line.split())))
+        print(' '.join(map(lambda x: calc(re.sub('[^A-Za-z0-9]', '', x)), line.split())))
 
 
 # --------------------------------------------------
