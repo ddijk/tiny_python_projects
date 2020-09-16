@@ -10,6 +10,7 @@ import re
 import io
 import random
 import csv
+from tabulate import tabulate
 
 from pprint import pprint
 
@@ -48,7 +49,12 @@ def get_args():
                         help='Half the reps',
                         action='store_true')
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    if args.num <=0:
+        parser.error(f'--num "{args.num}" must be greater than 0')
+
+    return args
 
 
 # --------------------------------------------------
@@ -61,13 +67,18 @@ def main():
     num = args.num
     easy = args.easy
 
-    random.seed(seed)
+    # print(f'seed is {seed}')
+    random.seed(args.seed)
     oefeningen = read_csv(filename)
+
+    # pprint(list(oefeningen))
 
     combined = lambda oef: load_level(calc_number(oef), easy)
     exercises = list(map(combined, oefeningen))
 
-    pprint(random.sample(exercises, k=num))
+    # pprint(exercises)
+
+    print(tabulate(random.sample(exercises, k=num), headers=('Exercise', 'Reps')))
 
 def load_level(oef, easy):
 
