@@ -10,6 +10,7 @@ import re
 import io
 import random
 import csv
+import sys
 from tabulate import tabulate
 
 from pprint import pprint
@@ -68,8 +69,12 @@ def main():
     easy = args.easy
 
     random.seed(args.seed)
+    data = read_csv(filename)
 
-    oefeningen = random.sample(read_csv(filename), k=num)
+    if not data: 
+        sys.exit("Geen data")
+
+    oefeningen = random.sample(data, k=num)
 
     combined = lambda oef: load_level(calc_number(oef), easy)
     exercises = list(map(combined, oefeningen))
@@ -102,10 +107,13 @@ def read_csv(bestand):
 
 def convert(line):
     """ blah """
-    # pprint(line)
     exercise, reps = line['exercise'], line['reps']
 
     match = re.match(r'(\d+)-(\d+)', reps)
+
+    # default reps when no valid number is given
+    if not match:
+        return (exercise, 50, 100)
 
     return (exercise, int(match.group(1)), int(match.group(2)))
 
