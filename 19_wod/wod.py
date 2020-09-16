@@ -64,12 +64,16 @@ def main():
     random.seed(seed)
     oefeningen = read_csv(filename)
 
-    exercises = list(map(calc_number, oefeningen))
-
-    if easy:
-        exercises = list(map(lambda e: (e[0], int(e[1] / 2)), exercises))
+    combined = lambda oef: load_level(calc_number(oef), easy)
+    exercises = list(map(combined, oefeningen))
 
     pprint(random.sample(exercises, k=num))
+
+def load_level(oef, easy):
+
+     divider = 2 if easy else 1
+
+     return ( oef[0], int(oef[1]/divider))
 
 
 def calc_number(oef):
