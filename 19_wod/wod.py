@@ -67,18 +67,14 @@ def main():
     num = args.num
     easy = args.easy
 
-    # print(f'seed is {seed}')
     random.seed(args.seed)
-    oefeningen = read_csv(filename)
 
-    # pprint(list(oefeningen))
+    oefeningen = random.sample(read_csv(filename), k=num)
 
     combined = lambda oef: load_level(calc_number(oef), easy)
     exercises = list(map(combined, oefeningen))
 
-    # pprint(exercises)
-
-    print(tabulate(random.sample(exercises, k=num), headers=('Exercise', 'Reps')))
+    print(tabulate( exercises,  headers=('Exercise', 'Reps')))
 
 def load_level(oef, easy):
 
@@ -101,7 +97,7 @@ def read_csv(bestand):
 
     reader = csv.DictReader(bestand, delimiter=',')
 
-    return map(convert, reader)
+    return list(map(convert, reader))
 
 
 def convert(line):
