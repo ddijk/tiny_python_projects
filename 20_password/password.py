@@ -78,49 +78,70 @@ def main():
     args = get_args()
     num_words = args.num_words
     num = args.num
-    max = args.max_word_len
-    min = args.min_word_len
+    max_len = args.max_word_len
+    min_len = args.min_word_len
     obfuscate = args.l33t
     pos_arg = args.positional
-    seed = args.seed
 
-    random.seed(seed)
+    random.seed(args.seed)
 
     words = set()
 
     def word_len(word):
-        return min <= len(word) <= max
+        return min_len <= len(word) <= max_len
 
-    for fh in pos_arg:
-        for line in fh:
+    for file_handle in pos_arg:
+        for line in file_handle:
             for word in filter(word_len, map(clean, line.lower().split())):
                 words.add(word)
 
     passwords = list()
     for _ in range(num):
-        passwords.append(''.join(random.sample(sorted(map(str.title, words)), num_words)))
+        passwords.append(''.join(
+            random.sample(sorted(map(str.title, words)), num_words)))
 
-    for pw in passwords:
-         print(l33t(pw)) if obfuscate else print(pw)
+    for password in passwords:
+        if obfuscate:
+            print(l33t(password))
+        else:
+            print(password)
 
-def choose(c):
-    return c.lower() if random.choice([True, False]) else c.upper()
+
+def choose(letter):
+    """ randomly upper case letter """
+    return letter.lower() if random.choice([True, False]) else letter.upper()
+
 
 def clean(word):
+    """ remove all non-letter chars """
     if not word:
-         return ''
+        return ''
 
     letters = '[A-Za-z]'
 
     return ''.join(filter(lambda c: re.match(letters, c), word))
 
-def l33t(text):
-    jumper = { 'a' : '@', 'A' : '4', 'O' : '0', 't' : '+', 'E' : '3', 'I' : '1', 'S' : '5'}
 
-    return ''.join(map(lambda c: jumper.get(c,c), ransom(text)))+random.choice(string.punctuation)
+def l33t(text):
+    """ Obfuscate chars """
+    jumper = {
+        'a': '@',
+        'A': '4',
+        'O': '0',
+        't': '+',
+        'E': '3',
+        'I': '1',
+        'S': '5'
+    }
+
+    return ''.join(map(lambda c: jumper.get(c, c),
+                       ransom(text))) + random.choice(string.punctuation)
+
 
 def ransom(text):
+    """ Randomly uppercase letters of text """
     return ''.join([choose(c) for c in text])
+
 
 # --------------------------------------------------
 if __name__ == '__main__':
