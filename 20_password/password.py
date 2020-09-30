@@ -76,12 +76,12 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    num_words = args.num_words
     num = args.num
+    num_words = args.num_words
     max_len = args.max_word_len
     min_len = args.min_word_len
     obfuscate = args.l33t
-    pos_arg = args.positional
+    files = args.positional
 
     random.seed(args.seed)
 
@@ -90,7 +90,7 @@ def main():
     def word_len(word):
         return min_len <= len(word) <= max_len
 
-    for file_handle in pos_arg:
+    for file_handle in files:
         for line in file_handle:
             for word in filter(word_len, map(clean, line.lower().split())):
                 words.add(word)
