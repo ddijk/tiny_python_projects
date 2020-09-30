@@ -7,9 +7,10 @@ Purpose: Rock the Casbah
 
 import argparse
 
-from ransom import choose
+# from ransom import choose
 import random
 import re
+import string
 
 
 # --------------------------------------------------
@@ -79,7 +80,7 @@ def main():
     num = args.num
     max = args.max_word_len
     min = args.min_word_len
-    flag_arg = args.l33t
+    obfuscate = args.l33t
     pos_arg = args.positional
     seed = args.seed
 
@@ -95,8 +96,15 @@ def main():
             for word in filter(word_len, map(clean, line.lower().split())):
                 words.add(word)
 
-    print(words)
+    passwords = list()
+    for _ in range(num):
+        passwords.append(''.join(random.sample(sorted(map(str.title, words)), num_words)))
 
+    for pw in passwords:
+         print(l33t(pw)) if obfuscate else print(pw)
+
+def choose(c):
+    return c.lower() if random.choice([True, False]) else c.upper()
 
 def clean(word):
     if not word:
@@ -107,10 +115,11 @@ def clean(word):
     return ''.join(filter(lambda c: re.match(letters, c), word))
 
 def l33t(text):
-    return text
+    jumper = { 'a' : '@', 'A' : '4', 'O' : '0', 't' : '+', 'E' : '3', 'I' : '1', 'S' : '5'}
+
+    return ''.join(map(lambda c: jumper.get(c,c), ransom(text)))+random.choice(string.punctuation)
 
 def ransom(text):
-    print(text)
     return ''.join([choose(c) for c in text])
 
 # --------------------------------------------------
