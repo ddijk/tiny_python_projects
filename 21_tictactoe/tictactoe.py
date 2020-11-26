@@ -53,7 +53,7 @@ def get_args():
         if list(bord)[cell-1] != '.':
             parser.error(f'--cell "{cell}" already taken') 
     else: 
-        if player and not cell:
+        if any([player, cell]) and not all([player, cell]):
             parser.error("Must provide both --player and --cell")
 
 
@@ -180,11 +180,7 @@ def main():
         print(format_board(board))
 
     winner = find_winner(board)
-    print(f'{winner} has won!') if winner else print("No winner.")
-    # print(f'board = "{board}"')
-    # print(f'cell = "{cell}"')
-    # print(f'player = "{player}"')
-
+    print(f'{winner} has won!' if winner else "No winner.")
 
 def test_move():
     board = 'X.O'
@@ -193,7 +189,7 @@ def test_move():
 
 def processMove(bord, cel, speler):
     updatedBord = list(bord)
-    updatedBord [cel-1]=speler
+    updatedBord[cel-1]=speler
     return ''.join(updatedBord)
 # --------------------------------------------------
 if __name__ == '__main__':
